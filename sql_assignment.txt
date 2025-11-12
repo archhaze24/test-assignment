@@ -1,0 +1,19 @@
+Запрос:
+
+WITH cutoff AS (
+  SELECT block_height AS h
+  FROM test_txs
+  ORDER BY block_height DESC, hash
+  OFFSET GREATEST($1, 1) - 1
+  LIMIT 1
+)
+SELECT t.*
+FROM test_txs t
+JOIN cutoff c ON t.block_height >= c.h
+ORDER BY t.block_height DESC, t.hash;
+
+
+Для оптимизации можно добавить индекс:
+
+CREATE INDEX IF NOT EXISTS idx_tx_block_height_hash
+  ON test_txs(block_height, hash);
