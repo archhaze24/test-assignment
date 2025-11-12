@@ -16,7 +16,7 @@ import { CosmosModule } from './modules/cosmos/cosmos.module';
     LoggerModule.forRoot({
       pinoHttp: {
         autoLogging: false,
-      }
+      },
     }),
     EvmModule,
     CosmosModule,
